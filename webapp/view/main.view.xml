@@ -1,0 +1,140 @@
+<mvc:View xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:t="sap.ui.table" controllerName="com.lista.precios.controller.main" displayBlock="true"
+	xmlns:tnt="sap.tnt">
+		
+	<SplitApp id="SplitAppDemo" initialDetail="detail" initialMaster="master" orientationChange="onOrientationChange">
+		<detailPages>
+			<Page id="detail" title="Precio a Estación" class="sapUiStdPage">
+				<content>
+					<List id="gasStation" items="{modelGasStation>/d/results/}">
+						<ObjectListItem  title="{modelGasStation>Name1}" type="Inactive" number="{modelGasStation>ShipTo}" numberUnit="{modelGasStation>PartnerExt}"
+								icon="sap-icon://mileage">
+								<firstStatus>
+									<ObjectStatus title="{i18n>delivery}" text="{modelGasStation>ShipDesc}" state="None"/>
+								</firstStatus>
+								<attributes>
+									<ObjectAttribute title="{i18n>plant}" text="{modelGasStation>PlantDesc}"/>
+								</attributes>
+						</ObjectListItem>
+					</List>
+					<tnt:ToolHeader>
+							<Text text="{i8n>Unit}" wrapping="false">
+							<layoutData>
+							<OverflowToolbarLayoutData priority="Disappear" />
+							</layoutData>
+						</Text>
+						<ToolbarSpacer />
+						<Text text="{i18n>material}" wrapping="false">
+							<layoutData>
+							<OverflowToolbarLayoutData priority="Disappear" />
+							</layoutData>
+						</Text>
+							<core:Icon src="sap-icon://product"/>
+						<Text id="detailmat" wrapping="false">
+							<layoutData>
+							<OverflowToolbarLayoutData priority="Disappear" />
+							</layoutData>
+						</Text>
+						<ToolbarSpacer />
+						<Text text="{i8n>SalesUnit}" wrapping="false">
+							<layoutData>
+							<OverflowToolbarLayoutData priority="Disappear" />
+							</layoutData>
+						</Text>
+					</tnt:ToolHeader>
+				<t:TreeTable id="PriceList" selectionMode="Single" enableColumnReordering="true" expandFirstLevel="false" rows="{Conditions>/}">
+        <t:columns>
+
+            <t:Column label="Precio Base {Conditions>Currency}" wrapping="true" textAlign="Center">
+                <t:template>
+                    <Text text="{Conditions>ImporteBase}" textAlign="Center" wrapping="false"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column label="Flete {Conditions>Currency}" textAlign="Center">
+                <t:template>
+                    <Text text="{Conditions>ImporteFlete}" textAlign="Center" wrapping="false"/>
+                </t:template>
+            </t:Column>
+
+            <t:Column label="Ajuste cuota fija (IEPS) {Conditions>Currency}" wrapping="true" textAlign="Center">
+                <t:template>
+                    <Text text="{Conditions>NIEPS}" textAlign="Center" wrapping="false"/>
+                </t:template>
+            </t:Column>
+            
+             <t:Column label="IVA {Conditions>Currency}" textAlign="Center">
+                <t:template>
+                    <Text text="{Conditions>Tax}" textAlign="Center" wrapping="true"/>
+                </t:template>
+            </t:Column>
+            
+            <t:Column label="Ajuste cuota fija (IEPS) {Conditions>Currency}" wrapping="true" textAlign="Center">
+                <t:template>
+                    <Text text="{Conditions>IEPS}" wrapping="false" textAlign="Center"/>
+                </t:template>
+            </t:Column>
+
+			<t:Column label="Total" text="{Conditions>Currency}" textAlign="Center">
+                <t:template>
+                    <Text text="{Conditions>Total}" wrapping="true" textAlign="Center"/>
+                </t:template>
+            </t:Column>
+            
+			<t:Column label="Unidad de Venta" wrapping="true" textAlign="Center" visible="false">
+                <t:template>
+                    <Text text="{Conditions>Unit}" wrapping="false" textAlign="Center"/>
+                </t:template>
+            </t:Column>
+            
+            <t:Column label="Unidad de Medida" wrapping="true" textAlign="Center" visible="false">
+                <t:template>
+                    <Text text="{Conditions>Measure}" wrapping="false" textAlign="Center"/>
+                </t:template>
+            </t:Column>
+         
+			<t:Column label="Moneda" wrapping="true" textAlign="Center" visible="false">
+                <t:template>
+                    <Text text="{Conditions>Currency}" wrapping="false" textAlign="Center"/>
+                </t:template>
+            </t:Column>
+            
+        </t:columns>
+
+    </t:TreeTable>
+				</content>
+			</Page>
+			</detailPages>
+		<masterPages>
+		<!--	<Page id="master" title="Grupo GOMASA" icon="sap-icon://action" class="sapUiStdPage">
+			<content>
+					<List>
+						<items items= "{/pricing/Estacion}">
+							<StandardListItem title="{Company}" type="Navigation" press="onPressGoToMaster"/>
+						</items>
+					</List>
+				</content>
+			</Page>-->
+			<Page id="master" title="Lista de Materiales" icon="sap-icon://action" class="sapUiStdPage" showNavButton="false">
+				<content>
+					<List items="{modelMaterialList>/d/results/}" id="materialList" itemPress="onListItemPress">
+						<items>
+							<StandardListItem title="{modelMaterialList>Description}" type="Active" custom:to="detail" icon="sap-icon://product">
+						<customData>
+									<core:CustomData key="Material" value="{modelMaterialList>Material}"/>
+									<core:CustomData key="Description" value="{modelMaterialList>Description}"/> 
+									<core:CustomData key="SalesOrg" value="{modelMaterialList>SalesOrg}"/> 
+									<core:CustomData key="DistrChan" value="{modelMaterialList>DistrChan}"/> 
+									<core:CustomData key="Plant" value="{modelMaterialList>Plant}"/> 
+									<core:CustomData key="SalesUnit" value="{modelMaterialList>SalesUnit}"/> 
+						</customData>	
+							</StandardListItem>
+					
+						</items>
+						
+					
+					</List>
+				</content>
+			</Page>
+		</masterPages>
+	</SplitApp>
+</mvc:View>
